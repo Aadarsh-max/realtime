@@ -8,6 +8,7 @@ import ControlPanel from "../components/ControlPanel";
 import GanttChart from "../components/GanttChart";
 import MetricsPanel from "../components/MetricsPanel";
 import SimulationStatus from "../components/SimulationStatus";
+import ComparisonChart from "../components/ComparisonChart";
 import Loader from "../components/Loader";
 
 const Simulator = () => {
@@ -15,12 +16,13 @@ const Simulator = () => {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("FCFS");
   const [options, setOptions] = useState({
     timeQuantum: 2,
-    starvationThreshold: 10
+    starvationThreshold: 10,
   });
 
   const [timeline, setTimeline] = useState([]);
   const [metrics, setMetrics] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
+  const [comparisonData, setComparisonData] = useState([]);
 
   // ================= Run Simulation =================
   const handleRun = async () => {
@@ -37,13 +39,12 @@ const Simulator = () => {
         {
           algorithm: selectedAlgorithm,
           tasks,
-          options
-        }
+          options,
+        },
       );
 
       setTimeline(response.data.timeline);
       setMetrics(response.data.metrics);
-
     } catch (error) {
       console.error("Simulation Error:", error);
       alert("Error running simulation.");
@@ -52,18 +53,24 @@ const Simulator = () => {
     }
   };
 
-  // ================= Reset Simulation =================
   const handleReset = () => {
     setTimeline([]);
     setMetrics(null);
     setIsRunning(false);
   };
 
+  const handleCompare = async () => {
+    const response = await axios.post(
+      "https://realtimeback-tau.vercel.app/api/scheduler/compare",
+      { tasks, options },
+    );
+
+    setComparisonData(response.data.comparison);
+  };
+
   return (
     <div className="min-h-screen bg-white text-gray-900 px-6 py-10">
-
       <div className="max-w-6xl mx-auto space-y-10">
-
         {/* Header */}
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
@@ -76,9 +83,7 @@ const Simulator = () => {
 
         {/* Task Configuration */}
         <section className="bg-gray-50 p-6 rounded-2xl border shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">
-            Task Configuration
-          </h2>
+          <h2 className="text-xl font-semibold mb-4">Task Configuration</h2>
 
           <TaskInputForm tasks={tasks} setTasks={setTasks} />
           <TaskTable tasks={tasks} setTasks={setTasks} />
@@ -86,9 +91,7 @@ const Simulator = () => {
 
         {/* Algorithm Selection & Controls */}
         <section className="bg-gray-50 p-6 rounded-2xl border shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">
-            Scheduling Controls
-          </h2>
+          <h2 className="text-xl font-semibold mb-4">Scheduling Controls</h2>
 
           <AlgorithmSelector
             selectedAlgorithm={selectedAlgorithm}
@@ -102,21 +105,17 @@ const Simulator = () => {
               onRun={handleRun}
               onReset={handleReset}
               isRunning={isRunning}
+              onCompare={handleCompare}
             />
           </div>
         </section>
 
         {/* Status */}
-        <SimulationStatus
-          isRunning={isRunning}
-          metrics={metrics}
-        />
+        <SimulationStatus isRunning={isRunning} metrics={metrics} />
 
         {/* Timeline */}
         <section className="bg-gray-50 p-6 rounded-2xl border shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">
-            Execution Timeline
-          </h2>
+          <h2 className="text-xl font-semibold mb-4">Execution Timeline</h2>
 
           {isRunning ? (
             <Loader message="Running simulation..." />
@@ -127,13 +126,11 @@ const Simulator = () => {
 
         {/* Metrics */}
         <section className="bg-gray-50 p-6 rounded-2xl border shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">
-            Performance Metrics
-          </h2>
+          <h2 className="text-xl font-semibold mb-4">Performance Metrics</h2>
 
           <MetricsPanel metrics={metrics} />
         </section>
-
+        <ComparisonChart data={comparisonData} />
       </div>
     </div>
   );

@@ -1,13 +1,8 @@
 import React from "react";
 
-const ControlPanel = ({
-  onRun,
-  onReset,
-  isRunning
-}) => {
+const ControlPanel = ({ onRun, onReset, isRunning }) => {
   return (
     <div className="flex flex-wrap gap-4 items-center">
-
       {/* Run Button */}
       <button
         onClick={onRun}
@@ -29,7 +24,12 @@ const ControlPanel = ({
       >
         Reset
       </button>
-
+      <button
+        onClick={onCompare}
+        className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+      >
+        Compare All
+      </button>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 
-const ControlPanel = ({ onRun, onReset, isRunning }) => {
+const ControlPanel = ({ onRun, onReset, isRunning,onCompare }) => {
   return (
     <div className="flex flex-wrap gap-4 items-center">
       {/* Run Button */}

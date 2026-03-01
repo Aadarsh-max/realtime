@@ -9,6 +9,7 @@ import GanttChart from "../components/GanttChart";
 import MetricsPanel from "../components/MetricsPanel";
 import SimulationStatus from "../components/SimulationStatus";
 import ComparisonChart from "../components/ComparisonChart";
+import ComplexityTable from "../components/ComplexityTable";
 import Loader from "../components/Loader";
 
 const Simulator = () => {
@@ -131,6 +132,7 @@ const Simulator = () => {
           <MetricsPanel metrics={metrics} />
         </section>
         <ComparisonChart data={comparisonData} />
+        <ComplexityTable />
       </div>
     </div>
   );

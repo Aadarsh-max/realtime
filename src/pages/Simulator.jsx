@@ -9,6 +9,7 @@ import GanttChart from "../components/GanttChart";
 import MetricsPanel from "../components/MetricsPanel";
 import SimulationStatus from "../components/SimulationStatus";
 import ComparisonChart from "../components/ComparisonChart";
+import ComplexityModal from "../components/ComplexityModal";
 import Loader from "../components/Loader";
 
 import { complexityMap } from "../utils/complexityMap";
@@ -25,7 +26,7 @@ const Simulator = () => {
   const [metrics, setMetrics] = useState(null);
   const [comparisonData, setComparisonData] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
-  const [showComplexity, setShowComplexity] = useState(false);
+  const [showComplexityModal, setShowComplexityModal] = useState(false);
 
   const handleRun = async () => {
     if (tasks.length === 0) {
@@ -36,7 +37,6 @@ const Simulator = () => {
     try {
       setIsRunning(true);
       setComparisonData([]);
-      setShowComplexity(false);
 
       const response = await axios.post(
         "https://realtimeback-tau.vercel.app/api/scheduler/run",
@@ -67,7 +67,6 @@ const Simulator = () => {
       setIsRunning(true);
       setTimeline([]);
       setMetrics(null);
-      setShowComplexity(false);
 
       const response = await axios.post(
         "https://realtimeback-tau.vercel.app/api/scheduler/compare",
@@ -128,37 +127,13 @@ const Simulator = () => {
             />
 
             <button
-              onClick={() => setShowComplexity(!showComplexity)}
+              onClick={() => setShowComplexityModal(true)}
               className="px-5 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900"
             >
               Analyze Complexity
             </button>
           </div>
         </section>
-
-        {showComplexity && (
-          <section className="bg-gray-50 p-6 rounded-2xl border shadow-sm">
-            <h2 className="text-xl font-semibold mb-4">Complexity Analysis</h2>
-
-            <p>
-              <span className="font-medium">Time Complexity:</span>{" "}
-              <span className="text-green-600 font-semibold">
-                {complexityMap[selectedAlgorithm]?.time}
-              </span>
-            </p>
-
-            <p className="mt-2">
-              <span className="font-medium">Space Complexity:</span>{" "}
-              <span className="text-green-600 font-semibold">
-                {complexityMap[selectedAlgorithm]?.space}
-              </span>
-            </p>
-
-            <p className="mt-3 text-gray-600 text-sm">
-              {complexityMap[selectedAlgorithm]?.explanation}
-            </p>
-          </section>
-        )}
 
         <SimulationStatus isRunning={isRunning} metrics={metrics} />
         <section className="bg-gray-50 p-6 rounded-2xl border shadow-sm">
@@ -183,6 +158,13 @@ const Simulator = () => {
             <h2 className="text-xl font-semibold mb-4">Algorithm Comparison</h2>
             <ComparisonChart data={comparisonData} />
           </section>
+        )}
+        {showComplexityModal && (
+          <ComplexityModal
+            algorithm={selectedAlgorithm}
+            complexityMap={complexityMap}
+            onClose={() => setShowComplexityModal(false)}
+          />
         )}
       </div>
     </div>

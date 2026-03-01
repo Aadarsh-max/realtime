@@ -23,7 +23,7 @@ const ComparisonChart = ({ data }) => {
           <XAxis dataKey="algorithm" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="averageWaitingTime" fill="#2563eb" />
+          <Bar dataKey="averageWaitingTime" fill="#16a34a" />
         </BarChart>
       </ResponsiveContainer>
     </div>

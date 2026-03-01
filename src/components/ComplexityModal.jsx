@@ -72,7 +72,7 @@ const ComplexityModal = ({ algorithm, complexityMap, onClose }) => {
             Time Complexity: {data.time}
           </h3>
 
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={200}>
             <LineChart data={timeData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="n" label={{ value: "Input Size (n)", position: "insideBottom", offset: -5 }} />
@@ -95,7 +95,7 @@ const ComplexityModal = ({ algorithm, complexityMap, onClose }) => {
             Space Complexity: {data.space}
           </h3>
 
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={200}>
             <LineChart data={spaceData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="n" label={{ value: "Input Size (n)", position: "insideBottom", offset: -5 }} />

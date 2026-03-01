@@ -33,7 +33,7 @@ const Simulator = () => {
       setIsRunning(true);
 
       const response = await axios.post(
-        "http://localhost:8000/api/scheduler/run",
+        "https://realtimeback-tau.vercel.app/api/scheduler/run",
         {
           algorithm: selectedAlgorithm,
           tasks,

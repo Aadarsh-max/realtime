@@ -53,7 +53,7 @@ const ComplexityModal = ({ algorithm, complexityMap, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white w-[800px] p-8 rounded-2xl shadow-xl relative">
+      <div className="bg-white w-[500px] p-8 rounded-2xl shadow-xl relative">
 
         <button
           onClick={onClose}
